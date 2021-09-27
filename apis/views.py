@@ -1,9 +1,10 @@
-
+from django.contrib.auth.models import User
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import viewsets
-from .models import Post
+from rest_framework.decorators import api_view
+from .models import Post, UserFields
 from .serializers import PostSerializer
 
 
@@ -28,3 +29,15 @@ class LoginAuthToken(ObtainAuthToken):
             'user_id': user.pk,
             'email': user.email
         })
+
+
+@api_view(['POST'])
+def register_user(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    user = User(
+        username=username,
+        password=password
+    )
+    user.save()
+    return Response({"status": "Succesfuly create user"})
