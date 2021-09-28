@@ -5,16 +5,18 @@ from django.db.models.fields import EmailField
 
 class UserFields(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE), 
 
     email = EmailField(blank=False)
 
-    avatar = models.ImageField()
+    avatar = models.ImageField(blank=True)
 
     def __str__(self):
-        return "{}".format(self.user.username)    
+        return "{}".format(self.user)    
 
 class Post(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1),
 
     post = models.TextField()
 
